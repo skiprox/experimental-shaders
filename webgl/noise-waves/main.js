@@ -12,6 +12,10 @@ async function main() {
 	const canvas = document.querySelector('#glcanvas');
 
 	//////////////////////////////////////////////
+	// Resize the canvas
+	resizeCanvas(canvas);
+
+	//////////////////////////////////////////////
 	// create the context
 	const gl = canvas.getContext('webgl');
 
@@ -232,4 +236,9 @@ function loadTexture(gl, url, wrap, min_filter) {
 
 function isPowerOf2(value) {
 	return (value & (value - 1)) == 0;
+}
+
+function resizeCanvas(canvas) {
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 }

@@ -18,14 +18,14 @@ For my project I'm going to be building procedurally generated water scenes usin
 
 ### 3 Stretch Goals
 
-* Pipeline for passing tinting variables to program to control hand-tinted quality of canvas
-* 
-* 
+* Pipeline for passing tinting variables to program to control hand-tinted quality of canvas (with controls to update this in real-time)
+* Additional artifacts to scene (rocks? debris?)
+* Get it all running on Raspberry Pi (with webGL)
 
 ### 5 Learning Goals
 
 * Learn how to create procedurally generated terrain using shaders
 * Study how Vert shaders work and how to manipulate the points of a canvas or object
 * Find out how to light material passed from a Vert shader using a Frag shader
-* 
-* 
+* Learn about hand tinting paper, photo silter gelatin prints and how to replicate 
+* Find out how to make physical prints of screens that mimic real photo gelatin siver prints

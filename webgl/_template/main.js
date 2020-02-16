@@ -239,6 +239,6 @@ function isPowerOf2(value) {
 }
 
 function resizeCanvas(canvas) {
-	canvas.width = document.innerWidth;
-	canvas.height = document.innerHeight;
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 }

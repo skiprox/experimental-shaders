@@ -7,7 +7,7 @@ uniform sampler2D u_sampler;
 
 varying vec2 v_texcoord;
 
-float grid_size = 160.0;
+float grid_size = 100.0;
 
 void main() {
     
@@ -21,7 +21,7 @@ void main() {
     vec2 f = fract(uv.xy / vec2(grid_size, grid_size));
     
     float d = distance(vec2(0.), f);
-    float spacing = 0.14;
+    float spacing = 0.08;
     d = mod(d, spacing) / spacing;
     d = step(0.2, d);
     color.rgb = vec3(d);
@@ -29,6 +29,6 @@ void main() {
     // normal black and white
     // gl_FragColor = color;
 
-    // some freaky colors
+    // wave colors
     gl_FragColor = mix(vec4(1., 1., 1., 1.), vec4(0.05, 0.3, 0.8, 1.), color.r);
 }

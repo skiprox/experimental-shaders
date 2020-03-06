@@ -43,7 +43,12 @@ float fSphere(vec3 pos, float rad) {
 
 float fSurface(vec3 pos) {
     float reversed = abs(min(0.0, pos.y));
-    return step(0.0, pos.y);
+    float returnVal = 0.0;
+    if (pos.y > -2.0) {
+        return length(pos);
+    } else {
+        return 0.0;
+    }
 }
 
 // Plane with normal n (n is normalized) at some distance from the origin
@@ -67,8 +72,8 @@ float scene(vec3 pos) {
     rotatingSphere.z += sin(u_time)/2.0;
     float s2 = fBox(rotatingSphere, vec3(0.1));
     float surface = fSurface(pos);
-    return smin(s, s2, 1.4);
-    // return smin(s, plane, 1.4);
+    //return smin(s, s2, 1.4);
+    return surface;
 }
 
 vec4 trace(vec3 camOrigin, vec3 dir) {
@@ -79,21 +84,22 @@ vec4 trace(vec3 camOrigin, vec3 dir) {
         dist = scene(ray);
         if (dist < tinyDist) {
             float c = totalDist/maxDist;
-            //return vec4(c, c, c, 1.0);
-            return vec4(cosPalette(c,
-                                    vec3(0.5),
-                                    vec3(0.5),
-                                    vec3(2.0, 1.0, 0.0),
-                                    vec3(0.50, 0.20, 0.25)), 1.0);
+            return vec4(c, c, c, 1.0);
+            // return vec4(cosPalette(c,
+            //                         vec3(0.5),
+            //                         vec3(0.5),
+            //                         vec3(2.0, 1.0, 0.0),
+            //                         vec3(0.50, 0.20, 0.25)), 1.0);
         }
         totalDist += dist;
         ray += dist * dir;
     }
-    return vec4(cosPalette(0.25,
-                                vec3(0.5),
-                                vec3(0.5),
-                                vec3(1.0),
-                                vec3(0.30, 0.20, 0.20)), 1.0);
+    return vec4(0.0);
+    // return vec4(cosPalette(0.25,
+    //                             vec3(0.5),
+    //                             vec3(0.5),
+    //                             vec3(1.0),
+    //                             vec3(0.30, 0.20, 0.20)), 1.0);
 }
 
 void main(){

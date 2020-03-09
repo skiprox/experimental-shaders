@@ -22,7 +22,7 @@ void main() {
     vec2 uv = v_texcoord;
     
     noise -= 0.5;
-    uv += noise.ba * 0.05;
+    uv += noise.ba * 0.02;
     
     float d = distance(normalSinTime(2., 2.), (uv.x * 0.5 + 0.5) * (uv.y * 0.5 + 0.5) * 10.);
     float spacing = 0.5;
@@ -30,7 +30,7 @@ void main() {
     color.rgb = vec3(d);
 
     // trying to get some blues
-    color.rgb = mix(vec3(0.04, 0.14, 0.8), vec3(0.04, normalCosTime(1.,1.) * 0.44, 1.0), d/15.);
+    color.rgb = mix(vec3(0.02, 0.04, 0.4), vec3(0.04, normalCosTime(1.,1.) * 0.24, 0.6), d/15.);
     
     // output to screen
     gl_FragColor = color;

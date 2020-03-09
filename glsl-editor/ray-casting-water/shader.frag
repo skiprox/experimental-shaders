@@ -45,7 +45,8 @@ float fSurface(vec3 pos) {
     float reversed = abs(min(0.0, pos.y));
     float returnVal = 0.0;
     if (pos.y > -2.0) {
-        return length(pos);
+        //return distance(pos, vec3(0.0));
+        return 1.0;
     } else {
         return 0.0;
     }
@@ -64,16 +65,16 @@ float fBox(vec3 p, vec3 b) {
 
 float scene(vec3 pos) {
     // The first sphere, stays in the center
-    float s = fBox(pos, vec3(0.1));
+    float s1 = fBox(pos, vec3(0.05));
     // The second sphere, moves around
     vec3 rotatingSphere = pos;
-    rotatingSphere.x += sin(u_time);
+    rotatingSphere.x += sin(u_time) * 1.4;
     rotatingSphere.y += sin(u_time)/2.;
-    rotatingSphere.z += sin(u_time)/2.0;
-    float s2 = fBox(rotatingSphere, vec3(0.1));
+    rotatingSphere.z += sin(u_time)/12.0;
+    float s2 = fBox(rotatingSphere, vec3(0.005));
     float surface = fSurface(pos);
-    //return smin(s, s2, 1.4);
-    return surface;
+    return smin(surface, smin(s1, s2, 2.4), 0.2);
+    //return surface;
 }
 
 vec4 trace(vec3 camOrigin, vec3 dir) {
@@ -83,18 +84,18 @@ vec4 trace(vec3 camOrigin, vec3 dir) {
     for (int i = 0; i < steps; i++) {
         dist = scene(ray);
         if (dist < tinyDist) {
-            float c = totalDist/maxDist;
-            return vec4(c, c, c, 1.0);
-            // return vec4(cosPalette(c,
-            //                         vec3(0.5),
-            //                         vec3(0.5),
-            //                         vec3(2.0, 1.0, 0.0),
-            //                         vec3(0.50, 0.20, 0.25)), 1.0);
+            float c = 1.0 - totalDist/maxDist;
+            // return vec4(c, c, c, 1.0);
+            return vec4(cosPalette(c,
+                                    vec3(0.5),
+                                    vec3(0.5),
+                                    vec3(2.0, 1.0, 0.0),
+                                    vec3(0.50, 0.20, 0.25)), 1.0);
         }
         totalDist += dist;
         ray += dist * dir;
     }
-    return vec4(0.0);
+    return vec4(0.0, sin(u_time) * 0.5 + 0.5, cos(u_time) * 0.5 + 0.5, 1.0);
     // return vec4(cosPalette(0.25,
     //                             vec3(0.5),
     //                             vec3(0.5),

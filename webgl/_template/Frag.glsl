@@ -14,10 +14,10 @@ void main() {
     vec2 uv = v_texcoord;
     
     noise -= 0.5;
-    uv += noise.rg * 0.05;
+    uv += noise.ra * 0.05;
     
     float d = distance(vec2(0.5), uv);
-    float spacing = 0.2;
+    float spacing = 0.03;
     d = mod(d, spacing) / spacing;
     d = step(0.5, d);
     color.rgb = vec3(d);

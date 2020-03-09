@@ -1,4 +1,3 @@
-
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -48,11 +47,12 @@ mat3 rotationMatrix(vec3 axis, float angle) {
 #define traceStep 0.5
 #define steps 10
 #define cameraDistance 80.0
-#define rotationSpeed 0.05
+#define rotationSpeed 0.005
+#define noiseMultipler 42.0
 #define red vec4(1.0, 0.0, 0.0, 1.0)
-#define waterColor vec4(0.0, 0.3, 0.4, 1.0)
-#define redHue vec4(2.0, 1.0, 1.0, 1.0)
-#define orangeHue vec4(2.0, 0.8, 0.5, 1.0)
+#define waterColor vec4(0.0, 0.1, 0.2, 1.0)
+#define redHue vec4(1.0, 0.5, 0.5, 1.0)
+#define orangeHue vec4(1.0, 0.4, 0.25, 1.0)
 #define PI_HALF 1.5707963267949
 
 vec3 mod289(vec3 x) {
@@ -85,10 +85,6 @@ float noise(vec3 v) {
   vec3 i1 = min(g.xyz, l.zxy);
   vec3 i2 = max(g.xyz, l.zxy);
 
-  //   x0 = x0 - 0.0 + 0.0 * C.xxx;
-  //   x1 = x0 - i1  + 1.0 * C.xxx;
-  //   x2 = x0 - i2  + 2.0 * C.xxx;
-  //   x3 = x0 - 1.0 + 3.0 * C.xxx;
   vec3 x1 = x0 - i1 + C.xxx;
   vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
   vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
@@ -145,8 +141,11 @@ float noise(vec3 v) {
                           dot(x2,x2),
                           dot(x3,x3)),
                         0.0);
-  m = m * m;
-  return 42.0 * dot(m * m, vec4(dot(p0, x0),
+  // This looks nice, you can tweak 
+  // multiplying m by itself to change the severity of
+  // the waves
+  m = m * m * (m * 1.25);
+  return noiseMultipler * dot(m * m, vec4(dot(p0, x0),
                                 dot(p1, x1), 
                                 dot(p2, x2),
                                 dot(p3, x3)));

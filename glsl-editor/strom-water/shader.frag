@@ -49,9 +49,9 @@ mat3 rotationMatrix(vec3 axis, float angle) {
 #define cameraDistance 80.0
 #define rotationSpeed 0.005
 #define noiseMultipler 42.0
-#define red vec4(1.0, 0.0, 0.0, 1.0)
-#define waterColor vec4(0.0, 0.1, 0.2, 1.0)
-#define redHue vec4(1.0, 0.5, 0.5, 1.0)
+#define red vec4(5.0, 0.0, 0.0, 1.0)
+#define waterColor vec4(0.0, 0.3, 0.5, 1.0)
+#define redHue vec4(2.0, 0.5, 0.5, 1.0)
 #define orangeHue vec4(1.0, 0.4, 0.25, 1.0)
 #define PI_HALF 1.5707963267949
 

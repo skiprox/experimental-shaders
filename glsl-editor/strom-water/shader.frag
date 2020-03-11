@@ -45,12 +45,13 @@ mat3 rotationMatrix(vec3 axis, float angle) {
 #define box_z 2.0
 #define bg vec4(0.0, 0.0, 0.0, 1.0)
 #define traceStep 0.5
-#define steps 10
+#define steps 6
 #define cameraDistance 80.0
 #define rotationSpeed 0.005
 #define noiseMultipler 42.0
 #define red vec4(5.0, 0.0, 0.0, 1.0)
-#define waterColor vec4(0.0, 0.3, 0.5, 1.0)
+#define waterColor vec4(0.7294, 0.8039, 0.9529, 1.0)
+#define waterColor2 vec4(0.9529, 0.4549, 0.4549, 1.0)
 #define redHue vec4(2.0, 0.5, 0.5, 1.0)
 #define orangeHue vec4(1.0, 0.4, 0.25, 1.0)
 #define PI_HALF 1.5707963267949
@@ -207,7 +208,7 @@ float getHeight(vec3 p) { // x,z,time
 
 vec4 getSky(vec3 rd) {
   if (rd.y > 0.3) return vec4(0.5, 0.8, 1.0, 1.0); // bright sky
-  if (rd.y < 0.0) return waterColor; // no reflection from below
+  if (rd.y < 0.0) return vec4(0.); // no reflection from below
 
   if (rd.z > 0.9 && rd.x > 0.3) {
     if (rd.y > 0.2) {
@@ -236,7 +237,26 @@ vec4 shade(vec3 normal, vec3 pos, vec3 rd) {
   float deep = 1.0 + 0.5 * pos.y;
 
   vec4 col = fresnel * reflection;
-  col += deep * 0.4 * waterColor;
+  vec2 st = pos.xy/u_resolution.xy;
+  // mix some colors!
+  // we can use rd bc that splits the screen up well
+  vec4 waterColorMix = mix(waterColor, waterColor2, rd.z);
+  // This splits up the water into sections
+  if (rd.z < 0.64) {
+    col += deep * 0.4 * waterColor;
+  } else if (rd.z < 0.78) {
+    col += deep * 0.4 * mix(waterColor, waterColor2, (rd.z - 0.64)/0.14);
+  } else {
+    col += deep * 0.4 * waterColor2;
+  }
+  // if (rd.z < 0.9) {
+  //   col += deep * 0.4 * waterColor;
+  // } else {
+  //   col += deep * 0.4 * waterColor2;
+  // }
+  // change this back to use waterColor
+  // or waterColor2 if you want solid colors
+  //col += deep * 0.4 * waterColorMix;
 
   return clamp(col, 0.0, 1.0);
 }

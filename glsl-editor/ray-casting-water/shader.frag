@@ -65,15 +65,15 @@ float fBox(vec3 p, vec3 b) {
 
 float scene(vec3 pos) {
     // The first sphere, stays in the center
-    float s1 = fBox(pos, vec3(0.05));
+    float s1 = fBox(pos, vec3(0.15));
     // The second sphere, moves around
     vec3 rotatingSphere = pos;
     rotatingSphere.x += sin(u_time) * 1.4;
     rotatingSphere.y += sin(u_time)/2.;
     rotatingSphere.z += sin(u_time)/12.0;
-    float s2 = fBox(rotatingSphere, vec3(0.005));
+    float s2 = fBox(rotatingSphere, vec3(0.15));
     float surface = fSurface(pos);
-    return smin(surface, smin(s1, s2, 2.4), 0.2);
+    return smin(s1, s2, 1.2);
     //return surface;
 }
 
